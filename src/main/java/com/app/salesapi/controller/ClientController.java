@@ -25,7 +25,7 @@ public class ClientController {
         Page<Client> result = service.find(filter, pgRequest);
 
         List<Client> transfListClient = result.getContent().stream().collect(Collectors.toList());
-        return new PageImpl<Client>(transfListClient, pgRequest, result.getTotalElements());
+        return new PageImpl<>(transfListClient, pgRequest, result.getTotalElements());
     }
 
     @PostMapping
@@ -37,14 +37,14 @@ public class ClientController {
     @GetMapping("/{id}")
     public ResponseEntity<Client> getClientById(@PathVariable("id") Integer id){
         Client result = service.findClientById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found!"));
 
         return ResponseEntity.ok(result);
     }
 
     @GetMapping("/update/{id}")
     public ResponseEntity<Client> getUpdateClientById(@PathVariable("id") Integer id, @RequestBody Client client){
-        service.findClientById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        service.findClientById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found!"));
 
         Client result = service.update(id, client);
         return ResponseEntity.ok(result);

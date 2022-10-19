@@ -1,6 +1,7 @@
 create table client(
     id integer primary key auto_increment,
-    name varchar(100)
+    name varchar(100),
+    cpf varchar(11)
 );
 
 create table product(
@@ -16,6 +17,7 @@ create table request(
     client_id integer references client(id),
     name varchar(100),
     description varchar(250),
+    status varchar(20)
     value_total numeric(20,2)
 );
 
