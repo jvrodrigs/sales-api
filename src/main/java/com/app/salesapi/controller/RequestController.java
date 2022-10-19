@@ -15,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
@@ -29,7 +30,7 @@ public class RequestController {
     private RequestService service;
 
     @PostMapping
-    public Integer save(@RequestBody RequestDto dto){
+    public Integer save(@RequestBody @Valid RequestDto dto){
         Request requestSave = service.save(dto);
         return requestSave.getId();
     }

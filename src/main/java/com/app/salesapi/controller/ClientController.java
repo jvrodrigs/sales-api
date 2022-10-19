@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -29,7 +30,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<Client> save(@RequestBody Client client){
+    public ResponseEntity<Client> save(@RequestBody @Valid Client client){
         Client clientCreated = service.save(client);
         return ResponseEntity.status(HttpStatus.CREATED).body(clientCreated);
     }
@@ -43,7 +44,7 @@ public class ClientController {
     }
 
     @GetMapping("/update/{id}")
-    public ResponseEntity<Client> getUpdateClientById(@PathVariable("id") Integer id, @RequestBody Client client){
+    public ResponseEntity<Client> getUpdateClientById(@PathVariable("id") Integer id, @RequestBody @Valid Client client){
         service.findClientById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Client not found!"));
 
         Client result = service.update(id, client);
