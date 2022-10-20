@@ -1,4 +1,4 @@
-package com.app.salesapi.config.token;
+package com.app.salesapi.config.security.token;
 
 import com.app.salesapi.SalesApiApplication;
 import com.app.salesapi.model.User;
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HashMap;
 
 @Service
 public class JwtService {
@@ -48,9 +47,8 @@ public class JwtService {
         try{
             Claims claims = getClaimsToken(token);
             Date dateExpirationToken = claims.getExpiration();
-            LocalDateTime localDateTime = LocalDateTime.from(dateExpirationToken.
-                    toInstant()
-                    .atZone(ZoneId.systemDefault()).toLocalDate());
+            LocalDateTime localDateTime = dateExpirationToken
+                    .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             return !LocalDateTime.now().isAfter(localDateTime);
         }catch (Exception ex){
             return false;

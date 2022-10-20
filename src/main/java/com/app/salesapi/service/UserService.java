@@ -1,5 +1,6 @@
 package com.app.salesapi.service;
 
+import com.app.salesapi.exception.PasswordIsInvalidException;
 import com.app.salesapi.model.User;
 import com.app.salesapi.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,12 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
 
+    public UserDetails isAuthentication(User user){
+        UserDetails userDetails = loadUserByUsername(user.getUsername());
+        boolean isPasswordMatcher = encoder.matches(user.getPassword(), userDetails.getPassword());
+        if (isPasswordMatcher) return userDetails;
+        throw new PasswordIsInvalidException();
+    }
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User userLogin = repository.findByUsername(username)
